@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te amo NOE</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
+    <style>
+        :root {
+            --envelope-color: #c0392b;
+            --paper-color: #fff;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffebee;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            perspective: 1000px;
+        }
+
+        .carta_love {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+        }
+
+        .carta_love.volteada .sobre {
+            transform: rotateY(180deg);
+        }
+
+        .sobre {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+        }
+
+        .sobre-frente, .sobre-atras {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background-color: var(--envelope-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .sobre-atras {
+            transform: rotateY(180deg);
+            background-color: var(--envelope-color);
+            overflow: hidden;
+        }
+
+        .solapa {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background-color: white;
+            transform-origin: top;
+            transition: transform 0.5s ease;
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            background-color: var(--envelope-color);
+            overflow: hidden;
+        }
+
+        .carta_love.abierta .solapa {
+            transform: rotateX(180deg);
+            background-color: white;
+            transition-delay: 0.5s;
+        }
+
+        .corazon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 1;
+        }
+
+        .papel {
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            width: 80%;
+            height: 80%;
+            background: var(--paper-color);
+            transform: translateY(0);
+            transition: all 0.5s ease;
+            padding: 40px;
+            box-sizing: border-box;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            color: #333;
+            opacity: 0;
+            pointer-events: none;
+            font-size: 1.5em;
+        }
+
+        .carta_love.abierta .papel {
+            transform: translateY(-200px);
+            opacity: 1;
+            transition-delay: 1s;
+        }
+
+        .destinatario, .remitente {
+            margin: 10px 0;
+            font-size: 1.8em;
+        }
+
+        .sello {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border: 2px solid white;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .sombra {
+            position: absolute;
+            bottom: -40px;
+            left: 5%;
+            width: 90%;
+            height: 40px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 50%;
+            filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+    <div class="carta_love">
+        <div class="sobre">
+            <div class="sobre-frente">
+                <div class="destinatario">Para: El amor de mi vida, Noe</div>
+                <div class="remitente">De: Jay</div>
+                <div class="sello">❤️</div>
+            </div>
+            <div class="sobre-atras">
+                <div class="solapa">
+                    <div class="corazon"></div>
+                </div>
+            </div>
+        </div>
+        <div class="papel">
+            <h2>Mensaje Especial</h2>
+            <p>Querida Noe,</p>
+            <p>¿Quieres ser mi SAN VALENTÍN?</p>
+            <p>Te amo mi amor,<br>Jay</p>
+        </div>
+        <div class="sombra"></div>
+    </div>
+
+    <script>
+        const carta = document.querySelector('.carta_love');
+        let estaVolteada = false;
+        let estaAbierta = false;
+        
+        carta.addEventListener('click', () => {
+            if (!estaVolteada) {
+                // Primer clic: voltear el sobre
+                carta.classList.add('volteada');
+                estaVolteada = true;
+            } else if (!estaAbierta) {
+                // Segundo clic: abrir la solapa y mostrar el papel
+                carta.classList.add('abierta');
+                estaAbierta = true;
+            } else {
+                // Tercer clic: cerrar todo
+                carta.classList.remove('abierta');
+                setTimeout(() => {
+                    carta.classList.remove('volteada');
+                    estaVolteada = false;
+                    estaAbierta = false;
+                }, 500);
+            }
+        });
+
+        // Efecto de hover suave
+        carta.addEventListener('mousemove', (e) => {
+            if (!estaVolteada && !estaAbierta) {
+                const { left, top, width, height } = carta.getBoundingClientRect();
+                const x = (e.clientX - left) / width - 0.5;
+                const y = (e.clientY - top) / height - 0.5;
+                
+                carta.style.transform = `rotateX(${-y * 10}deg) rotateY(${x * 10}deg)`;
+            }
+        });
+
+        carta.addEventListener('mouseleave', () => {
+            if (!estaVolteada && !estaAbierta) {
+                carta.style.transform = 'rotateX(0) rotateY(0)';
+            }
+        });
+    </script>
+</body>
+</html>
